@@ -1,15 +1,4 @@
-
-/**
- * A Lambda function that returns a static string
- */
-exports.helloFromLambdaHandler = async () => {
-  // If you change this message, you will need to change hello-from-lambda.test.js
-  const message = 'Hello from Lambda!';
-
-  // All log statements are written to CloudWatch
-  console.info(`${message}`);
-
-  return message;
+import { ScheduledEvent } from 'aws-lambda';
+export const handler = async (event: ScheduledEvent): Promise<void> => {
+  console.log('Received event', JSON.stringify(event, null, 2));
 };
-
-export const handler =
