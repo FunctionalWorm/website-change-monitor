@@ -1,11 +1,16 @@
 {
     "name": "replaced-by-user-input",
-    "description": "replaced-by-user-input",
+    "description": "An AWS SAM application to regularly monitor a web page for changes",
     "version": "0.0.1",
     "private": true,
     "dependencies": {},
     "devDependencies": {
-        "jest": "^24.7.1"
+        "@types/aws-lambda": "^8.10.59",
+        "@types/jest": "^26.0.4",
+        "@types/node": "^14.0.23",
+        "aws-sdk": "^2.715.0",
+        "jest": "^24.7.1",
+        "typescript": "^3.9.7"
     },
     "scripts": {
         "test": "jest"
