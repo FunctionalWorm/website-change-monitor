@@ -9,6 +9,9 @@ Parameters:
     Type: String
     Default: https://github.com/sam-negotiator/website-change-monitor
     Description: URL of the website to monitor
+  NotificationEmail:
+    Type: String
+    Description: Email address to be notified when changes are detected
   Schedule:
     Type: String
     Default: rate(1 minute)
@@ -35,4 +38,11 @@ Resources:
           Properties:
             Schedule: !Ref Schedule
             Name: check-web-page-app-checkWebPageSchedule
-            Input: !Join ['', ['{ "webPageUrl": "', !Ref WebPageUrl, '" }']]
+            Input: !Sub
+              - >
+                {
+                  "webPageUrl": "${WebPageUrl}",
+                  "notificationEmail": "${NotificationEmail}"
+                }
+              - WebPageUrl: !Ref WebPageUrl
+                NotificationEmail: !Ref NotificationEmail
