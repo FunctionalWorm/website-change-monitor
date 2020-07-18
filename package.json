@@ -3,7 +3,6 @@
   "description": "An AWS SAM application to regularly monitor a web page for changes",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@types/aws-lambda": "^8.10.59",
     "@types/jest": "^26.0.4",
@@ -20,6 +19,11 @@
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
   },
+  "files": [
+    "dist",
+    "src",
+    "__tests__"
+  ],
   "scripts": {
     "compile": "tsc",
     "test": "jest",
