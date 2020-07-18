@@ -11,6 +11,7 @@ Resources:
   checkWebPage:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: check-web-page-checkWebPage
       Handler: dist/handlers/check-web-page.handler
       Runtime: nodejs12.x
       MemorySize: 128
