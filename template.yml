@@ -4,6 +4,15 @@ Description: >-
 
 Transform:
   - AWS::Serverless-2016-10-31
+Parameters:
+  WebPageUrl:
+    Type: String
+    Default: https://github.com/sam-negotiator/website-change-monitor
+    Description: URL of the website to monitor
+  Schedule:
+    Type: String
+    Default: rate(1 minute)
+    Description: Frequency of checking the web page
 
 Resources:
   # Each Lambda function is defined by properties:
@@ -19,3 +28,11 @@ Resources:
       Description: A Lambda function that checks a web page for changes
       Policies:
         - AWSLambdaBasicExecutionRole
+      Events:
+        CheckWebPageScheduledEvent:
+          Type: Schedule
+          Enabled: true
+          Properties:
+            Schedule: !Ref Schedule
+            Name: check-web-page-app-checkWebPageSchedule
+            Input: !Join ['', ['{ "webPageUrl": "', !Ref WebPageUrl, '" }']]
