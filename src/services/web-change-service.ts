@@ -1,10 +1,29 @@
 import { WebPageChange } from '../types/web-page-change';
+import * as https from 'https';
+import * as storageService from './storage-service';
+
+const loadWebPage = async (webPageUrl: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    https.get(webPageUrl, (response) => {
+      response.setEncoding('utf8');
+      let body = '';
+      response.on('data', (data) => {
+        body += data;
+      });
+      response.on('end', () => {
+        resolve(body);
+      });
+      response.on('error', (error) => {
+        reject(error);
+      });
+    });
+  });
+};
 
 const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
-  return {
-    before: webPageUrl + ' contents',
-    after: webPageUrl + ' contents'
-  };
+  const before = await storageService.load(webPageUrl);
+  const after = await loadWebPage(webPageUrl);
+  return { before, after };
 };
 
 const isChangeSignificant = (change: WebPageChange): boolean => {

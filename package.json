@@ -10,6 +10,7 @@
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
     "aws-sdk": "^2.715.0",
+    "aws-sdk-mock": "^5.1.0",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.18.0",
@@ -30,6 +31,6 @@
     "coverage": "jest --silent --coverage",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "monitor": "sam logs --name checkWebPage --stack-name check-web-page-app --region ap-southeast-2 --tail || true"
+    "monitor": "sam logs --name CheckWebPageLambdaFunction --stack-name check-web-page-app --tail || true"
   }
 }

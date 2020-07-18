@@ -20,7 +20,7 @@ Parameters:
 Resources:
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  checkWebPage:
+  CheckWebPageLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: check-web-page-checkWebPage
@@ -46,3 +46,11 @@ Resources:
                 }
               - WebPageUrl: !Ref WebPageUrl
                 NotificationEmail: !Ref NotificationEmail
+  CheckWebPageStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: check-web-page-storage
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
