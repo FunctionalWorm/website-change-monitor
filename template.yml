@@ -24,7 +24,7 @@ Resources:
       Handler: dist/handlers/check-web-page.handler
       Runtime: nodejs12.x
       MemorySize: 128
-      Timeout: 100
+      Timeout: 60
       Description: A Lambda function that checks a web page for changes
       Policies:
         - AWSLambdaBasicExecutionRole
