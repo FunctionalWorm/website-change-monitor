@@ -29,6 +29,7 @@
     "test": "jest",
     "coverage": "jest --silent --coverage",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "monitor": "sam logs --name checkWebPage --stack-name check-web-page-app --region ap-southeast-2 --tail || true"
   }
 }
