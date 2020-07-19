@@ -14,19 +14,28 @@ describe('webChangeService', () => {
       const path = '/valid';
       const webPageUrl = root + path;
       const before = 'before content';
-      const afterHtml = '<body>after content</body>';
-      const afterText = 'after content';
-      beforeAll(async () => {
+      const afterHtml = '<body>after content <div class="target">child content</div></body>';
+      const afterText = 'after content child content';
+      const afterChildText = 'child content';
+      beforeEach(async () => {
         nock(root).get(path).reply(200, afterHtml);
         mockedStorageService.load.mockResolvedValue(before);
       });
-      it('should return fresh page and page history, and update page history', async () => {
-        const result = await getPageChange(webPageUrl);
-        expect(result).toEqual({ before, after: afterText });
-        expect(mockedStorageService.load).toHaveBeenCalledTimes(1);
-        expect(mockedStorageService.load).toHaveBeenCalledWith(webPageUrl);
-        expect(mockedStorageService.save).toHaveBeenCalledTimes(1);
-        expect(mockedStorageService.save).toHaveBeenCalledWith(webPageUrl, afterText);
+      describe('When called without query selector', () => {
+        it('should return fresh page and page history, and update page history', async () => {
+          const result = await getPageChange(webPageUrl);
+          expect(result).toEqual({ before, after: afterText });
+          expect(mockedStorageService.load).toHaveBeenCalledTimes(1);
+          expect(mockedStorageService.load).toHaveBeenCalledWith(webPageUrl);
+          expect(mockedStorageService.save).toHaveBeenCalledTimes(1);
+          expect(mockedStorageService.save).toHaveBeenCalledWith(webPageUrl, afterText);
+        });
+      });
+      describe('When called with query selector', () => {
+        it('should return fresh page content under query selector', async () => {
+          const result = await getPageChange(webPageUrl, '.target');
+          expect(result).toEqual({ before, after: afterChildText });
+        });
       });
     });
 

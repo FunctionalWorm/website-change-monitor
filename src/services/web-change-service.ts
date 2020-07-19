@@ -20,16 +20,20 @@ const loadWebPage = async (webPageUrl: string): Promise<string> => {
   });
 };
 
-const getTextFromHtml = (html: string) => {
+const getTextFromHtml = (html: string, querySelector?: string) => {
   const root = parse(html);
-  const text = root.text;
+  const targetElement = querySelector ? root.querySelector(querySelector) : root;
+  const text = targetElement.text;
   return text.replace(/\s+/g, ' ');
 };
 
-const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
+const getPageChange = async (
+  webPageUrl: string,
+  querySelector?: string
+): Promise<WebPageChange> => {
   const before = await storageService.load(webPageUrl);
   const html = await loadWebPage(webPageUrl);
-  const after = getTextFromHtml(html);
+  const after = getTextFromHtml(html, querySelector);
   await storageService.save(webPageUrl, after);
   return { before, after };
 };

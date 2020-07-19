@@ -9,6 +9,10 @@ Parameters:
     Type: String
     Default: https://github.com/sam-negotiator/website-change-monitor
     Description: URL of the website to monitor
+  QuerySelector:
+    Type: String
+    Default: ''
+    Description: Query selector to monitor within the page
   Schedule:
     Type: String
     Default: rate(1 minute)
@@ -54,7 +58,8 @@ Resources:
             Input: !Sub
               - >
                 {
-                  "webPageUrl": "${WebPageUrl}"
+                  "webPageUrl": "${WebPageUrl}",
+                  "querySelector": "${QuerySelector}"
                 }
               - WebPageUrl: !Ref WebPageUrl
   CheckWebPageStorageBucket:

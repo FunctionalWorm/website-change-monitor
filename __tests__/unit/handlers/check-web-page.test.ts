@@ -16,13 +16,14 @@ mockedWebChangeService.getPageChange.mockResolvedValue(mockWebPageChange);
 
 describe('handler', () => {
   const event: CheckWebPageInput = {
-    webPageUrl: 'https://www.google.com'
+    webPageUrl: 'https://www.google.com',
+    querySelector: '.test'
   };
 
   it('should check for web page changes', async () => {
     await handler(event);
     expect(webChangeService.getPageChange).toHaveBeenCalledTimes(1);
-    expect(webChangeService.getPageChange).toHaveBeenCalledWith(event.webPageUrl);
+    expect(webChangeService.getPageChange).toHaveBeenCalledWith(event.webPageUrl, event.querySelector);
   });
 
   it('should check whether changes are significant', async () => {
