@@ -39,6 +39,11 @@ Resources:
                 - s3:getObject
                 - s3:ListBucket
               Resource: arn:aws:s3:::check-web-page-storage/*
+            - Sid: SNSPublishPolicy
+              Effect: Allow
+              Action:
+                - sns:publish
+              Resource: !Ref NotificationTopic
       Events:
         CheckWebPageScheduledEvent:
           Type: Schedule
@@ -49,11 +54,9 @@ Resources:
             Input: !Sub
               - >
                 {
-                  "webPageUrl": "${WebPageUrl}",
-                  "notificationSnsTopic": "${NotificationTopic}"
+                  "webPageUrl": "${WebPageUrl}"
                 }
               - WebPageUrl: !Ref WebPageUrl
-                NotificationTopic: !Ref NotificationTopic
   CheckWebPageStorageBucket:
     Type: AWS::S3::Bucket
     Properties:
