@@ -17,7 +17,7 @@ const mockGetObject = jest.fn(
     } else if (path.startsWith('some-erroneous-name')) {
       callback({ code: 'RuntimeError' });
     } else {
-      callback({ code: 'NotFound' });
+      callback({ code: 'NoSuchKey' });
     }
   }
 );

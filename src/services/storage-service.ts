@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk';
-const storageBucketName = 'CheckWebPageStorage';
+const storageBucketName = 'check-web-page-storage';
 
 const getStoragePath = (name: string): string => {
   return name.replace(/\W+/g, '-') + '.dump';
@@ -16,7 +16,7 @@ const load = async (name: string): Promise<string> => {
       .promise();
     return data ? data.toString() : '';
   } catch (error) {
-    if (error.code === 'NotFound') {
+    if (error.code === 'NoSuchKey') {
       return '';
     }
     throw error;

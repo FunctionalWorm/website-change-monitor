@@ -106,3 +106,4 @@ dist
 # AWS SAM
 .aws-sam
 samconfig.toml
+src/events
