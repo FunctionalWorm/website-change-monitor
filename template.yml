@@ -69,7 +69,7 @@ Resources:
     Type: AWS::SNS::Topic
     Properties:
       DisplayName: Web Page Change Notification Topic
-      KmsMasterKeyId: String
+      KmsMasterKeyId: alias/aws/sns
       TopicName: WebPageChangeTopic
 
 Outputs:

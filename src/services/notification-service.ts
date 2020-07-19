@@ -13,11 +13,13 @@ const notifyChange = async ({
 }): Promise<void> => {
   console.log(`Notifying topic ${notificationTopicArn} about changes in web page: ${webPageUrl}`);
   const sns = new AWS.SNS();
-  sns.publish({
-    Subject: 'Web Page Change',
-    Message: createChangeMessage({ webPageUrl, change }),
-    TopicArn: notificationTopicArn
-  });
+  await sns
+    .publish({
+      Subject: 'Web Page Change',
+      Message: createChangeMessage({ webPageUrl, change }),
+      TopicArn: notificationTopicArn
+    })
+    .promise();
 };
 
 const createChangeMessage = ({
