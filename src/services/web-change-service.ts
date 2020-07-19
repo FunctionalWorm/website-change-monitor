@@ -22,8 +22,8 @@ const loadWebPage = async (webPageUrl: string): Promise<string> => {
 
 const getTextFromHtml = (html: string) => {
   const root = parse(html);
-  const body = root.querySelector('body');
-  return body.text.replace(/\s+/g, ' ');
+  const text = root.text;
+  return text.replace(/\s+/g, ' ');
 };
 
 const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
