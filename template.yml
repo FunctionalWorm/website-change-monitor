@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  website-change-monitor
+
+Transform:
+  - AWS::Serverless-2016-10-31
+Parameters:
+  WebPageUrl:
+    Type: String
+    Default: https://github.com/sam-negotiator/website-change-monitor
+    Description: URL of the website to monitor
+  QuerySelector:
+    Type: String
+    Default: ''
+    Description: Query selector to monitor within the page
+  Schedule:
+    Type: String
+    Default: rate(1 minute)
+    Description: Frequency of checking the web page
+
+Resources:
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  CheckWebPageLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: check-web-page-checkWebPage
+      Handler: dist/handlers/check-web-page.handler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 60
+      Description: A Lambda function that checks a web page for changes
+      Environment:
+        Variables:
+          NotificationTopicArn: !Ref NotificationTopic
+          CheckWebPageStorageBucket: !Ref CheckWebPageStorageBucket
+      Policies:
+        - Statement:
+            - Sid: S3ReadWritePolicy
+              Effect: Allow
+              Action:
+                - s3:putObject
+                - s3:getObject
+                - s3:ListBucket
+              Resource: arn:aws:s3:::check-web-page-storage/*
+            - Sid: SNSPublishPolicy
+              Effect: Allow
+              Action:
+                - sns:publish
+              Resource: !Ref NotificationTopic
+      Events:
+        CheckWebPageScheduledEvent:
+          Type: Schedule
+          Enabled: true
+          Properties:
+            Schedule: !Ref Schedule
+            Name: check-web-page-app-checkWebPageSchedule
+            Input: !Sub
+              - >
+                {
+                  "webPageUrl": "${WebPageUrl}",
+                  "querySelector": "${QuerySelector}"
+                }
+              - WebPageUrl: !Ref WebPageUrl
+  CheckWebPageStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: check-web-page-storage
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  NotificationTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Web Page Change Notification Topic
+      KmsMasterKeyId: alias/aws/sns
+      TopicName: WebPageChangeTopic
+
+Outputs:
+  NotificationTopicArn:
+    Description: ARN of the SNS Topic that gets notified when changes are detected
+    Value: !Ref NotificationTopic
