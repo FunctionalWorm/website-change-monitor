@@ -30,7 +30,13 @@ Resources:
       Timeout: 60
       Description: A Lambda function that checks a web page for changes
       Policies:
-        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Sid: S3ReadWritePolicy
+              Effect: Allow
+              Action:
+                - s3:GetObject
+                - s3:PutObject
+              Resource: arn:aws:s3:::check-web-page-storage/*
       Events:
         CheckWebPageScheduledEvent:
           Type: Schedule
