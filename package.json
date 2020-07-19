@@ -34,5 +34,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "deploy": "npm run compile && sam build && sam deploy",
     "monitor": "sam logs --name CheckWebPageLambdaFunction --stack-name check-web-page-app --tail || true"
+  },
+  "dependencies": {
+    "node-html-parser": "^1.2.20"
   }
 }

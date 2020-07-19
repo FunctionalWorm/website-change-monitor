@@ -1,6 +1,7 @@
 import { WebPageChange } from '../types/web-page-change';
 import * as https from 'https';
 import * as storageService from './storage-service';
+import { parse } from 'node-html-parser';
 
 const loadWebPage = async (webPageUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -20,9 +21,16 @@ const loadWebPage = async (webPageUrl: string): Promise<string> => {
   });
 };
 
+const getTextFromHtml = (html: string) => {
+  const root = parse(html);
+  const body = root.querySelector('body');
+  return body.text.replace(/\s+/g, ' ');
+};
+
 const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
   const before = await storageService.load(webPageUrl);
-  const after = await loadWebPage(webPageUrl);
+  const html = await loadWebPage(webPageUrl);
+  const after = getTextFromHtml(html);
   await storageService.save(webPageUrl, after);
   return { before, after };
 };
