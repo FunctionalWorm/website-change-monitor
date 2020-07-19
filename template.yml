@@ -34,8 +34,9 @@ Resources:
             - Sid: S3ReadWritePolicy
               Effect: Allow
               Action:
-                - s3:GetObject
-                - s3:PutObject
+                - s3:putObject
+                - s3:getObject
+                - s3:ListBucket
               Resource: arn:aws:s3:::check-web-page-storage/*
       Events:
         CheckWebPageScheduledEvent:
