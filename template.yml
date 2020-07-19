@@ -50,10 +50,10 @@ Resources:
               - >
                 {
                   "webPageUrl": "${WebPageUrl}",
-                  "notificationSnsTopic": "${NotificationSnsTopic}"
+                  "notificationSnsTopic": "${NotificationTopic}"
                 }
               - WebPageUrl: !Ref WebPageUrl
-                NotificationSnsTopic: !Ref NotificationSnsTopic
+                NotificationTopic: !Ref NotificationTopic
   CheckWebPageStorageBucket:
     Type: AWS::S3::Bucket
     Properties:
