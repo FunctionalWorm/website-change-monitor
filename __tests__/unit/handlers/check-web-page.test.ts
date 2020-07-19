@@ -1,12 +1,8 @@
-import * as process from 'process';
 import { mocked } from 'ts-jest/utils';
 import { handler } from '../../../src/handlers/check-web-page';
 import { CheckWebPageInput } from '../../../src/types/check-web-page-input';
 import * as notificationService from '../../../src/services/notification-service';
 import * as webChangeService from '../../../src/services/web-change-service';
-
-process.env.CheckWebPageStorageBucket = 'test-bucket';
-process.env.notificationTopicArn = 'test-topic-arn';
 
 jest.mock('../../../src/services/notification-service');
 jest.mock('../../../src/services/web-change-service');
