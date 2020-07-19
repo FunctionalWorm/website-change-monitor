@@ -1,15 +1,31 @@
+import * as process from 'process';
+import * as AWS from 'aws-sdk';
 import { WebPageChange } from '../types/web-page-change';
+
+const notificationTopicArn = <string>process.env.NotificationTopicArn;
 
 const notifyChange = async ({
   webPageUrl,
-  change,
-  email
+  change
 }: {
   webPageUrl: string;
   change: WebPageChange;
-  email: string;
 }): Promise<void> => {
-  console.log(`Notifying email: ${email} about changes in web page: ${webPageUrl}`);
+  console.log(`Notifying topic: notificationTopic about changes in web page: ${webPageUrl}`);
+  const sns = new AWS.SNS();
+  sns.publish({
+    Subject: 'Web Page Change',
+    Message: createChangeMessage({ webPageUrl, change }),
+    TopicArn: notificationTopicArn
+  });
 };
+
+const createChangeMessage = ({
+  webPageUrl,
+  change
+}: {
+  webPageUrl: string;
+  change: WebPageChange;
+}) => `Change detected in: ${webPageUrl}, ${change.before.length}->${change.after.length}`;
 
 export { notifyChange };

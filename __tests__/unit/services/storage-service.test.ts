@@ -1,5 +1,9 @@
 import * as AWSMock from 'aws-sdk-mock';
 import * as AWS from 'aws-sdk';
+import * as process from 'process';
+
+process.env.CheckWebPageStorageBucket = 'test-bucket';
+
 const mockContent = 'some content';
 AWSMock.setSDKInstance(AWS);
 const mockGetObject = jest.fn(

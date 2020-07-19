@@ -1,5 +1,7 @@
+import * as process from 'process';
 import * as AWS from 'aws-sdk';
-const storageBucketName = 'check-web-page-storage';
+
+const storageBucketName = <string>process.env.CheckWebPageStorageBucket;
 
 const getStoragePath = (name: string): string => {
   return name.replace(/\W+/g, '-') + '.dump';

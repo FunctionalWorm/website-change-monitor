@@ -9,9 +9,6 @@ Parameters:
     Type: String
     Default: https://github.com/sam-negotiator/website-change-monitor
     Description: URL of the website to monitor
-  NotificationEmail:
-    Type: String
-    Description: Email address to be notified when changes are detected
   Schedule:
     Type: String
     Default: rate(1 minute)
@@ -29,6 +26,10 @@ Resources:
       MemorySize: 128
       Timeout: 60
       Description: A Lambda function that checks a web page for changes
+      Environment:
+        Variables:
+          NotificationTopicArn: !Ref NotificationTopic
+          CheckWebPageStorageBucket: !Ref CheckWebPageStorageBucket
       Policies:
         - Statement:
             - Sid: S3ReadWritePolicy
@@ -49,10 +50,10 @@ Resources:
               - >
                 {
                   "webPageUrl": "${WebPageUrl}",
-                  "notificationEmail": "${NotificationEmail}"
+                  "notificationSnsTopic": "${NotificationSnsTopic}"
                 }
               - WebPageUrl: !Ref WebPageUrl
-                NotificationEmail: !Ref NotificationEmail
+                NotificationSnsTopic: !Ref NotificationSnsTopic
   CheckWebPageStorageBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -61,3 +62,14 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+  NotificationTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Web Page Change Notification Topic
+      KmsMasterKeyId: String
+      TopicName: WebPageChangeTopic
+
+Outputs:
+  NotificationTopicArn:
+    Description: ARN of the SNS Topic that gets notified when changes are detected
+    Value: !Ref NotificationTopic
