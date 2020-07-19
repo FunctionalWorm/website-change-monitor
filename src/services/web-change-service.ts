@@ -35,7 +35,11 @@ const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
 };
 
 const isChangeSignificant = (change: WebPageChange): boolean => {
-  return change.before !== change.after;
+  const isSignificant = change.before !== change.after;
+  if (isSignificant) {
+    console.log('Changed from:\n%s \n\nto:\n%s', change.before, change.after);
+  }
+  return isSignificant;
 };
 
 export { getPageChange, isChangeSignificant };

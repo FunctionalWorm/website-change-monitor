@@ -12,5 +12,7 @@ export const handler = async (event: CheckWebPageInput): Promise<void> => {
       webPageUrl,
       change
     });
+  } else {
+    console.log('No significant change detected');
   }
 };

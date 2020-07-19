@@ -11,7 +11,7 @@ const notifyChange = async ({
   webPageUrl: string;
   change: WebPageChange;
 }): Promise<void> => {
-  console.log(`Notifying topic: notificationTopic about changes in web page: ${webPageUrl}`);
+  console.log(`Notifying topic ${notificationTopicArn} about changes in web page: ${webPageUrl}`);
   const sns = new AWS.SNS();
   sns.publish({
     Subject: 'Web Page Change',
