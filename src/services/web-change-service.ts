@@ -23,6 +23,7 @@ const loadWebPage = async (webPageUrl: string): Promise<string> => {
 const getPageChange = async (webPageUrl: string): Promise<WebPageChange> => {
   const before = await storageService.load(webPageUrl);
   const after = await loadWebPage(webPageUrl);
+  await storageService.save(webPageUrl, after);
   return { before, after };
 };
 
