@@ -1,7 +1,7 @@
 {
   "name": "website-change-monitor",
   "description": "An AWS SAM application to regularly monitor a web page for changes",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@types/aws-lambda": "^8.10.59",
