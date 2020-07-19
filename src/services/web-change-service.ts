@@ -5,7 +5,7 @@ import { parse } from 'node-html-parser';
 
 const loadWebPage = async (webPageUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    https.get(webPageUrl, (response) => {
+    const request = https.get(webPageUrl, (response) => {
       response.setEncoding('utf8');
       let body = '';
       response.on('data', (data) => {
@@ -14,10 +14,9 @@ const loadWebPage = async (webPageUrl: string): Promise<string> => {
       response.on('end', () => {
         resolve(body);
       });
-      response.on('error', (error) => {
-        reject(error);
-      });
+      response.on('error', reject);
     });
+    request.on('error', reject);
   });
 };
 
